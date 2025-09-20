@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="display-4 fw-bold mb-4">Bienvenue sur Biblio-TEC, {{ user.username }}!</h1>
+            <p class="lead">Votre bibliothèque numérique de l'Université Alioune Diop de Bambey</p>
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <a href="{% url 'liste_livres' %}" class="btn btn-uadb btn-lg">
+                    <i class="fas fa-book-open me-2"></i>Explorer la bibliothèque
+                </a>
+                <a href="{% url 'mes_achats' %}" class="btn btn-outline-uadb btn-lg">
+                    <i class="fas fa-bookmark me-2"></i>Mes achats
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-4 mb-4">
+            <div class="card text-center border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-book-reader text-uadb"></i>
+                    </div>
+                    <h4>Apprentissage</h4>
+                    <p class="text-muted">Accédez à des ressources pédagogiques de qualité pour renforcer votre apprentissage.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-center border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-graduation-cap text-uadb"></i>
+                    </div>
+                    <h4>Réussite académique</h4>
+                    <p class="text-muted">Des livres sélectionnés pour vous accompagner vers l'excellence académique.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-center border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-mobile-alt text-uadb"></i>
+                    </div>
+                    <h4>Accessible partout</h4>
+                    <p class="text-muted">Consultez vos livres favoris depuis n'importe quel appareil, à tout moment.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <h2 class="section-title">Livres récemment ajoutés</h2>
+            
+            <div class="row">
+                {% for livre in derniers_livres %}
+                <div class="col-md-6 mb-4">
+                    <div class="card book-card h-100">
+                        <img src="{{ livre.image_couverture.url }}" class="card-img-top" alt="{{ livre.titre }}" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ livre.titre }}</h5>
+                            <p class="card-text text-muted">par {{ livre.auteur }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                {% if livre.est_gratuit %}
+                                <span class="badge uadb-badge">Gratuit</span>
+                                {% else %}
+                                <span class="text-primary fw-bold">{{ livre.prix }} FCFA</span>
+                                {% endif %}
+                                <a href="{% url 'detail_livre' livre.id %}" class="btn btn-uadb-outline btn-sm">Voir détails</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{% url 'liste_livres' %}" class="btn btn-uadb">Voir tous les livres</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-uadb {
+        color: #003366;
+    }
+    
+    .btn-outline-uadb {
+        color: #003366;
+        border-color: #003366;
+    }
+    
+    .btn-outline-uadb:hover {
+        background-color: #003366;
+        color: white;
+    }
+    
+    .feature-icon {
+        font-size: 2.5rem;
+    }
+</style>
+{% endblock %}

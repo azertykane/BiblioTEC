@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="{{ livre.image_couverture.url }}" class="img-fluid rounded shadow" alt="{{ livre.titre }}">
+        </div>
+        <div class="col-md-8">
+            <h2 class="mb-3">{{ livre.titre }}</h2>
+            <p class="text-muted">par <strong>{{ livre.auteur }}</strong></p>
+            
+            <div class="mb-3">
+                {% if livre.categorie %}
+                <span class="badge bg-secondary">{{ livre.categorie.nom }}</span>
+                {% endif %}
+                {% if livre.est_gratuit %}
+                <span class="badge uadb-badge ms-2">Gratuit</span>
+                {% else %}
+                <span class="badge bg-primary ms-2">{{ livre.prix }} FCFA</span>
+                {% endif %}
+            </div>
+            
+            <div class="mb-4">
+                <h4>Description</h4>
+                <p>{{ livre.description }}</p>
+            </div>
+            
+            <div class="d-flex gap-2">
+                {% if user.is_authenticated %}
+                    {% if deja_achete or livre.est_gratuit %}
+                    <a href="{{ livre.fichier.url }}" class="btn btn-uadb" download>
+                        <i class="fas fa-download me-2"></i>Télécharger
+                    </a>
+                    {% else %}
+                    <a href="{% url 'acheter_livre' livre.id %}" class="btn btn-uadb">
+                        <i class="fas fa-shopping-cart me-2"></i>Acheter maintenant
+                    </a>
+                    {% endif %}
+                {% else %}
+                <a href="{% url 'login' %}?next={% url 'detail_livre' livre.id %}" class="btn btn-uadb">
+                    <i class="fas fa-sign-in-alt me-2"></i>Se connecter pour télécharger
+                </a>
+                {% endif %}
+                
+                <button class="btn btn-outline-secondary">
+                    <i class="fas fa-heart me-2"></i>Ajouter aux favoris
+                </button>
+            </div>
+            
+            <div class="mt-4">
+                <h5>Détails du livre</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Date de publication:</strong> {{ livre.date_publication|date:"d F Y" }}</li>
+                    <li class="list-group-item"><strong>Format:</strong> PDF</li>
+                    <li class="list-group-item"><strong>Taille:</strong> 2.5 MB</li>
+                    <li class="list-group-item"><strong>Pages:</strong> 250</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="card border-0 shadow">
+                <div class="card-body py-5">
+                    <div class="mb-4">
+                        <i class="fas fa-check-circle fa-5x text-success"></i>
+                    </div>
+                    <h2 class="card-title mb-3">Achat Confirmé!</h2>
+                    <p class="card-text mb-4">Vous avez acheté avec succès <strong>"{{ livre.titre }}"</strong> pour <strong>{{ livre.prix }} FCFA</strong>.</p>
+                    <p class="card-text mb-4">Vous pouvez maintenant télécharger le livre et le consulter à tout moment depuis votre bibliothèque personnelle.</p>
+                    
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="{{ livre.fichier.url }}" class="btn btn-uadb" download>
+                            <i class="fas fa-download me-2"></i>Télécharger maintenant
+                        </a>
+                        <a href="{% url 'mes_achats' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-book me-2"></i>Voir mes achats
+                        </a>
+                        <a href="{% url 'liste_livres' %}" class="btn btn-outline-primary">
+                            <i class="fas fa-shopping-bag me-2"></i>Continuer shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

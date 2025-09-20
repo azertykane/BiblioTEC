@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="section-title">Mes Achats</h2>
+            <p class="text-center text-muted">Retrouvez tous les livres que vous avez achetés</p>
+        </div>
+    </div>
+
+    {% if achats %}
+    <div class="row">
+        {% for achat in achats %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ achat.livre.image_couverture.url }}" class="img-fluid rounded-start h-100" alt="{{ achat.livre.titre }}" style="object-fit: cover;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ achat.livre.titre }}</h5>
+                            <p class="card-text text-muted">par {{ achat.livre.auteur }}</p>
+                            <p class="card-text"><small class="text-muted">Acheté le {{ achat.date_achat|date:"d F Y" }}</small></p>
+                            <div class="mt-3">
+                                <a href="{{ achat.livre.fichier.url }}" class="btn btn-uadb btn-sm" download>
+                                    <i class="fas fa-download me-1"></i>Télécharger
+                                </a>
+                                <a href="{% url 'detail_livre' achat.livre.id %}" class="btn btn-outline-secondary btn-sm">
+                                    <i class="fas fa-info-circle me-1"></i>Détails
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-book-open fa-4x text-muted mb-3"></i>
+        <h4 class="text-muted">Vous n'avez encore acheté aucun livre</h4>
+        <p>Parcourez notre bibliothèque pour découvrir nos ouvrages</p>
+        <a href="{% url 'liste_livres' %}" class="btn btn-uadb mt-3">Explorer la bibliothèque</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="section-title">Notre Collection de Livres</h2>
+            <p class="text-center text-muted">Découvrez tous les livres disponibles dans notre bibliothèque numérique</p>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <form method="GET" action="{% url 'liste_livres' %}">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Rechercher un livre..." name="q" value="{{ request.GET.q }}">
+                    <button class="btn btn-uadb" type="submit">Rechercher</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <select class="form-select" id="categorieFilter">
+                <option value="">Toutes les catégories</option>
+                {% for categorie in categories %}
+                <option value="{{ categorie.id }}" {% if request.GET.categorie == categorie.id|stringformat:"i" %}selected{% endif %}>
+                    {{ categorie.nom }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for livre in livres %}
+        <div class="col-md-4 mb-4">
+            <div class="card book-card h-100">
+                <img src="{{ livre.image_couverture.url }}" class="card-img-top" alt="{{ livre.titre }}" style="height: 250px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ livre.titre }}</h5>
+                    <p class="card-text text-muted">par {{ livre.auteur }}</p>
+                    <p class="card-text">{{ livre.description|truncatewords:20 }}</p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        {% if livre.est_gratuit %}
+                        <span class="badge uadb-badge">Gratuit</span>
+                        {% else %}
+                        <span class="text-primary fw-bold">{{ livre.prix }} FCFA</span>
+                        {% endif %}
+                        <a href="{% url 'detail_livre' livre.id %}" class="btn btn-uadb-outline">Voir détails</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <i class="fas fa-book-open fa-3x text-muted mb-3"></i>
+            <h4 class="text-muted">Aucun livre trouvé</h4>
+            <p>Essayez de modifier vos critères de recherche</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+    <nav aria-label="Page navigation" class="mt-5">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.categorie %}&categorie={{ request.GET.categorie }}{% endif %}">Précédent</a>
+            </li>
+            {% endif %}
+            
+            {% for num in page_obj.paginator.page_range %}
+            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.categorie %}&categorie={{ request.GET.categorie }}{% endif %}">{{ num }}</a>
+            </li>
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.categorie %}&categorie={{ request.GET.categorie }}{% endif %}">Suivant</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+
+<script>
+    document.getElementById('categorieFilter').addEventListener('change', function() {
+        const categorieId = this.value;
+        const url = new URL(window.location.href);
+        
+        if (categorieId) {
+            url.searchParams.set('categorie', categorieId);
+        } else {
+            url.searchParams.delete('categorie');
+        }
+        
+        window.location.href = url.toString();
+    });
+</script>
+{% endblock %}
