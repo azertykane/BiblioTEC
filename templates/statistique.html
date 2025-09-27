@@ -1,0 +1,18 @@
+<h1>📊 Statistiques d'utilisation</h1>
+
+<p>Total des emprunts : {{ total_emprunts }}</p>
+<p>Total des achats : {{ total_achats }}</p>
+
+<h2>Top 5 des livres empruntés</h2>
+<ul>
+    {% for livre in top_emprunts %}
+        <li>{{ livre.livre__titre }} - {{ livre.total }} emprunts</li>
+    {% endfor %}
+</ul>
+
+<h2>Top 5 des livres achetés</h2>
+<ul>
+    {% for livre in top_achats %}
+        <li>{{ livre.livre__titre }} - {{ livre.total }} achats</li>
+    {% endfor %}
+</ul>
