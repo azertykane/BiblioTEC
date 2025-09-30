@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'manuel' %}">Manuel</a></li>
+                    <li class="breadcrumb-item active">Guide Étudiant</li>
+                </ol>
+            </nav>
+            
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="display-5 fw-bold text-uadb-blue">
+                    <i class="fas fa-user-graduate me-3"></i>Guide de l'Étudiant
+                </h1>
+                <a href="{% url 'manuel' %}" class="btn btn-uadb-outline">
+                    <i class="fas fa-arrow-left me-2"></i>Retour au manuel
+                </a>
+            </div>
+            <p class="lead">Maximisez votre expérience avec la bibliothèque numérique</p>
+        </div>
+    </div>
+
+    <!-- Navigation rapide -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-compass me-2"></i>Navigation rapide
+                    </h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="#recherche" class="btn btn-sm btn-uadb">🔍 Recherche</a>
+                        <a href="#telechargement" class="btn btn-sm btn-uadb">📥 Téléchargement</a>
+                        <a href="#profil" class="btn btn-sm btn-uadb">👤 Profil</a>
+                        <a href="#favoris" class="btn btn-sm btn-uadb">❤️ Favoris</a>
+                        <a href="#achats" class="btn btn-sm btn-uadb">🛒 Mes achats</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenu du guide -->
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Recherche -->
+            <section id="recherche" class="mb-5">
+                <h2 class="border-bottom pb-2 mb-4">
+                    <i class="fas fa-search me-2 text-uadb-blue"></i>Recherche de livres
+                </h2>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Recherche simple</h4>
+                        <ol>
+                            <li>Accédez à l'onglet <strong>"Livres"</strong></li>
+                            <li>Utilisez la barre de recherche en haut</li>
+                            <li>Tapez un mot-clé : titre, auteur ou sujet</li>
+                            <li>Appuyez sur Entrée ou cliquez sur 🔍</li>
+                        </ol>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Recherche avancée</h4>
+                        <ul>
+                            <li><strong>Filtres par catégorie</strong></li>
+                            <li><strong>Recherche par auteur</strong></li>
+                            <li><strong>Filtrage par prix</strong></li>
+                            <li><strong>Tri par date/pertinence</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="alert alert-info mt-3">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    <strong>Astuce :</strong> Utilisez les guillemets pour une recherche exacte : <code>"algorithmes avancés"</code>
+                </div>
+            </section>
+
+            <!-- Téléchargement -->
+            <section id="telechargement" class="mb-5">
+                <h2 class="border-bottom pb-2 mb-4">
+                    <i class="fas fa-download me-2 text-uadb-blue"></i>Téléchargement
+                </h2>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-uadb">
+                            <tr>
+                                <th>Type</th>
+                                <th>Procédure</th>
+                                <th>Format</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge bg-success">Gratuit</span></td>
+                                <td>Cliquez sur "Télécharger"</td>
+                                <td>PDF</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-primary">Payant</span></td>
+                                <td>Achat → Confirmation → Téléchargement</td>
+                                <td>PDF protégé</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Ajoutez les autres sections de la même manière -->
+
+        </div>
+
+        <!-- Sidebar avec astuces -->
+        <div class="col-lg-4">
+            <div class="sticky-top" style="top: 100px;">
+                <div class="card border-uadb-blue">
+                    <div class="card-header bg-uadb-blue text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-tips me-2"></i>Astuces rapides
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Important :</strong> Sauvegardez vos téléchargements
+                        </div>
+                        
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                <small>Utilisez le mode hors ligne</small>
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                <small>Créez des listes de lecture</small>
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                <small>Partagez avec vos camarades</small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card mt-3 border-uadb-gold">
+                    <div class="card-header bg-uadb-gold text-dark">
+                        <h5 class="mb-0">
+                            <i class="fas fa-life-ring me-2"></i>Support urgent
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="small">Problème technique ? Contactez-nous :</p>
+                        <a href="mailto:support@uadb.edu.sn" class="btn btn-sm btn-uadb w-100">
+                            <i class="fas fa-envelope me-2"></i>Email support
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .table-uadb {
+        background-color: var(--uadb-blue);
+        color: white;
+    }
+    
+    .breadcrumb {
+        background-color: transparent;
+        padding: 0;
+    }
+    
+    .sticky-top {
+        z-index: 1000;
+    }
+</style>
+{% endblock %}

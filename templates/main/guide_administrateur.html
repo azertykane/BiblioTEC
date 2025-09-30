@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header avec vérification admin -->
+    {% if user.is_authenticated and user.is_staff %}
+    <div class="alert alert-success">
+        <i class="fas fa-shield-alt me-2"></i>
+        <strong>Accès administrateur confirmé</strong> - Vous avez les privilèges complets.
+    </div>
+    {% endif %}
+
+    <div class="row mb-5">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'manuel' %}">Manuel</a></li>
+                    <li class="breadcrumb-item active">Guide Administrateur</li>
+                </ol>
+            </nav>
+            
+            <h1 class="display-5 fw-bold text-uadb-gold">
+                <i class="fas fa-cog me-3"></i>Guide de l'Administrateur
+            </h1>
+            <p class="lead">Gestion complète de la plateforme Biblio-TEC</p>
+        </div>
+    </div>
+
+    <!-- Contenu réservé aux admins -->
+    {% if user.is_authenticated and user.is_staff %}
+    <div class="row">
+        <div class="col-md-3">
+            <!-- Navigation admin -->
+            <div class="list-group">
+                <a href="{% url 'admin_dashboard' %}" class="list-group-item list-group-item-action">
+                    <i class="fas fa-tachometer-alt me-2"></i>Tableau de bord
+                </a>
+                <a href="{% url 'admin_livres' %}" class="list-group-item list-group-item-action">
+                    <i class="fas fa-book me-2"></i>Gérer les livres
+                </a>
+                <a href="{% url 'ajouter_livre' %}" class="list-group-item list-group-item-action">
+                    <i class="fas fa-plus me-2"></i>Ajouter un livre
+                </a>
+            </div>
+        </div>
+        
+        <div class="col-md-9">
+            <!-- Contenu du guide admin -->
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-warning">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <strong>Accès restreint :</strong> Cette section est réservée aux administrateurs.
+        <a href="{% url 'login' %}?next={% url 'guide_administrateur' %}" class="alert-link">Connectez-vous en tant qu'admin</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
