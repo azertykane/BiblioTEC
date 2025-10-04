@@ -30,6 +30,33 @@
             </select>
         </div>
     </div>
+    <form method="GET" action="{% url 'liste_livres' %}" class="recherche-avancee-form">
+    <h3>Filtres Avancés</h3>
+
+    <input type="text" name="q" placeholder="Titre, Auteur ou Mot-clé" value="{{ request.GET.q|default:'' }}">
+    
+    <select name="discipline">
+        <option value="">-- Discipline --</option>
+        {% for discipline in disciplines %}
+            <option value="{{ discipline }}" {% if discipline == request.GET.discipline %}selected{% endif %}>
+                {{ discipline }}
+            </option>
+        {% endfor %}
+    </select>
+    
+    <select name="type_document">
+        <option value="">-- Type de Document --</option>
+        {% for code, nom in types_doc %}
+            <option value="{{ code }}" {% if code == request.GET.type_document %}selected{% endif %}>
+                {{ nom }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <input type="number" name="annee_publication" placeholder="Année (Ex: 2023)" value="{{ request.GET.annee_publication|default:'' }}">
+
+    <button type="submit">Rechercher</button>
+</form>
 
     <div class="row">
         {% for livre in livres %}
@@ -61,28 +88,33 @@
     </div>
 
     {% if is_paginated %}
-    <nav aria-label="Page navigation" class="mt-5">
-        <ul class="pagination justify-content-center">
-            {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.categorie %}&categorie={{ request.GET.categorie }}{% endif %}">Précédent</a>
-            </li>
-            {% endif %}
-            
-            {% for num in page_obj.paginator.page_range %}
-            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
-                <a class="page-link" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.categorie %}&categorie={{ request.GET.categorie }}{% endif %}">{{ num }}</a>
-            </li>
-            {% endfor %}
-            
-            {% if page_obj.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.categorie %}&categorie={{ request.GET.categorie }}{% endif %}">Suivant</a>
-            </li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% endif %}
+<nav aria-label="Page navigation" class="mt-5">
+    <ul class="pagination justify-content-center">
+        
+        {% with query_string="&q="|add:request.GET.q|default:""|add:"&categorie="|add:request.GET.categorie|default:""|add:"&discipline="|add:request.GET.discipline|default:""|add:"&type_document="|add:GET.type_document|default:""|add:"&annee_publication="|add:request.GET.annee_publication|default:"" %}
+        
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{{ query_string }}">Précédent</a>
+        </li>
+        {% endif %}
+        
+        {% for num in page_obj.paginator.page_range %}
+        <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+            <a class="page-link" href="?page={{ num }}{{ query_string }}">{{ num }}</a>
+        </li>
+        {% endfor %}
+        
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}{{ query_string }}">Suivant</a>
+        </li>
+        {% endif %}
+
+        {% endwith %}
+    </ul>
+</nav>
+{% endif %}
 </div>
 
 <script>

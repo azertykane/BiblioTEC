@@ -1,0 +1,78 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<div class="container my-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="section-title text-center">Tableau de Bord Administrateur</h2>
+            <p class="text-center text-muted">Statistiques d'Usage de la Bibliothèque Numérique (Accès Personnel Documentaire)</p>
+        </div>
+    </div>
+
+    <div class="row text-center mb-5">
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card bg-primary text-white shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Total Documents</h5>
+                    <p class="fs-1 fw-bold">{{ total_livres }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card bg-success text-white shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Total Consultations</h5>
+                    <p class="fs-1 fw-bold">{{ total_consultations }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card bg-info text-white shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Rôles Actifs</h5>
+                    <p class="fs-1 fw-bold">{{ stats_roles|length }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0">Top 5 des Documents les Plus Consultés</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for livre in top_livres %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ forloop.counter }}. {{ livre.titre|truncatechars:50 }}
+                            <span class="badge bg-primary rounded-pill">{{ livre.count_consultations }}</span>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item text-muted">Aucune donnée de consultation pour le moment.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0">Répartition des Utilisateurs par Rôle</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for stat in stats_roles %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Rôle : **{{ stat.role|upper }}**
+                            <span class="badge bg-secondary rounded-pill">{{ stat.count }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+    </div>
+{% endblock content %}
