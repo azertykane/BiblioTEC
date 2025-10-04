@@ -7,7 +7,7 @@ from django.conf import settings
 import os
 
 # Assurez-vous d'importer les modèles nécessaires (y compris le modèle User si besoin)
-from .models import Livre, Categorie
+from .models import Livre, Categorie, Achat, Consultation
 from users.models import User # Assurez-vous que l'importation fonctionne selon votre structure
 from users.decorators import enseignant_requis, admin_requis # Importez les nouveaux decorators
 
@@ -69,7 +69,7 @@ def liste_livres(request):
         'disciplines': disciplines,
         'types_doc': types_doc,
     }
-    return render(request, 'livres/liste_livres.html', context)
+    return render(request, 'livres/index.html', context)
 
 def detail_livre(request, livre_id):
     """
@@ -119,7 +119,21 @@ def telecharger_document(request, livre_id):
     # Si le fichier n'est pas trouvé
     return Http404("Le document n'a pas été trouvé sur le serveur.")
 
-# @login_required
-# def mes_achats(request): # Cette vue doit être renommée 'mes_consultations' ou 'historique'
-#     # ... logique à adapter
-#     pass
+@login_required
+def mes_achats(request): 
+    """
+    Affiche l'historique des consultations/téléchargements de l'utilisateur.
+    (Utilise le modèle Consultation, même si la fonction s'appelle encore mes_achats
+    pour des raisons d'historique de code).
+    """
+    # Assurez-vous que le modèle Consultation est importé au début du fichier
+    # Exemple: from .models import Livre, Categorie, Consultation
+    
+    consultations = Consultation.objects.filter(utilisateur=request.user).select_related('livre')
+    
+    context = {
+        # Le nom de la variable change pour être plus explicite
+        'consultations': consultations
+    }
+    # NOTE: Ce template devra être créé (ex: 'livres/historique_consultations.html')
+    return render(request, 'livres/historique_consultations.html', context) 
