@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from main.views import accueil
+from main.views import accueil, guide_administrateur, guide_etudiant, manuel_utilisation
 from admin.views import admin_dashboard, admin_livres, ajouter_livre, modifier_livre, supprimer_livre
 from django.contrib.auth import views as auth_views
 from users.views import inscription
@@ -53,4 +53,8 @@ urlpatterns = [
     path('gestion/livres/ajouter/', ajouter_livre, name='ajouter_livre'),
     path('gestion/livres/modifier/<int:livre_id>/', modifier_livre, name='modifier_livre'),
     path('gestion/livres/supprimer/<int:livre_id>/', supprimer_livre, name='supprimer_livre'),
+
+    path('manuel/', manuel_utilisation, name='manuel'),
+    path('guide/etudiant/', guide_etudiant, name='guide_etudiant'),
+    path('guide/administrateur/', guide_administrateur, name='guide_administrateur'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

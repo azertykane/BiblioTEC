@@ -329,6 +329,7 @@
                 font-size: 1.8rem;
             }
         }
+        
     </style>
 </head>
 <body>
@@ -352,7 +353,9 @@
                         <a class="nav-link" href="#">À propos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link" href="{% url 'manuel' %}">
+                          <i class="fas fa-book me-1"></i>Manuel
+                        </a>
                     </li>
                     {% if user.is_authenticated and user.is_staff %}
                     <li class="nav-item dropdown">
