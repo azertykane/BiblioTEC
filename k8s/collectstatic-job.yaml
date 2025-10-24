@@ -1,0 +1,53 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: django-collectstatic
+  namespace: bibliotec
+  labels:
+    app: bibliotec-web
+    job: collectstatic
+spec:
+  template:
+    metadata:
+      labels:
+        app: bibliotec-web
+        job: collectstatic
+    spec:
+      restartPolicy: OnFailure
+      
+      containers:
+      - name: collectstatic
+        image: bibliotec-web:latest
+        imagePullPolicy: IfNotPresent
+        
+        command: ["python", "manage.py", "collectstatic", "--noinput"]
+        
+        env:
+        - name: DEBUG
+          valueFrom:
+            configMapKeyRef:
+              name: bibliotec-config
+              key: DEBUG
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: bibliotec-secrets
+              key: DJANGO_SECRET_KEY
+        
+        volumeMounts:
+        - name: static-storage
+          mountPath: /app/staticfiles
+        
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      
+      volumes:
+      - name: static-storage
+        persistentVolumeClaim:
+          claimName: django-static-pvc
+

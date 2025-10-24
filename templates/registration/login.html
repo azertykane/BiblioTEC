@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg border-0">
+                <div class="card-header py-4 text-center" style="background: linear-gradient(135deg, var(--uadb-blue) 0%, var(--uadb-dark-blue) 100%);">
+                    <h2 class="text-white mb-0"><i class="fas fa-sign-in-alt me-2"></i>Connexion</h2>
+                </div>
+                <div class="card-body p-5">
+                    {% if form.errors %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Erreur :</strong> Votre email et votre mot de passe ne correspondent pas. Veuillez réessayer.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endif %}
+
+                    {% if next %}
+                        {% if user.is_authenticated %}
+                        <div class="alert alert-warning" role="alert">
+                            Votre compte n'a pas accès à cette page. Pour continuer, veuillez vous connecter avec un compte qui y a accès.
+                        </div>
+                        {% else %}
+                        <div class="alert alert-info" role="alert">
+                            Veuillez vous connecter pour accéder à cette page.
+                        </div>
+                        {% endif %}
+                    {% endif %}
+
+                    <form method="post" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label for="id_email" class="form-label fw-bold">Adresse email</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input type="email" name="username" class="form-control form-control-lg" id="id_email" required autofocus>
+                            </div>
+                            <small class="form-text text-muted">Utilisez l'adresse email avec laquelle vous vous êtes inscrit</small>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="id_password" class="form-label fw-bold">Mot de passe</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input type="password" name="password" class="form-control form-control-lg" id="id_password" required>
+                            </div>
+                        </div>
+
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="rememberMe" name="remember_me">
+                            <label class="form-check-label" for="rememberMe">
+                                Se souvenir de moi
+                            </label>
+                        </div>
+
+                        <div class="d-grid mb-4">
+                            <button type="submit" class="btn btn-uadb btn-lg">
+                                <i class="fas fa-sign-in-alt me-2"></i>Se connecter
+                            </button>
+                        </div>
+
+                        <input type="hidden" name="next" value="{{ next }}">
+                    </form>
+
+                    <div class="text-center mb-3">
+                        <a href="{% url 'password_reset' %}" class="text-decoration-none">Mot de passe oublié ?</a>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="text-center">
+                        <p class="mb-0">Vous n'avez pas de compte ?</p>
+                        <a href="{% url 'inscription' %}" class="btn btn-outline-uadb mt-2">
+                            <i class="fas fa-user-plus me-2"></i>Créer un compte
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-outline-uadb {
+        color: var(--uadb-blue);
+        border-color: var(--uadb-blue);
+    }
+    
+    .btn-outline-uadb:hover {
+        background-color: var(--uadb-blue);
+        color: white;
+    }
+</style>
+{% endblock %}

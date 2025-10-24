@@ -1,0 +1,144 @@
+# Git
+.git
+.gitignore
+.gitattributes
+*.md
+README.md
+LICENSE
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.manifest
+*.spec
+
+# Virtual Environment
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv
+pyvenv.cfg
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Testing
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.pytest_cache/
+htmlcov/
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+/staticfiles/
+/static/
+/media/
+
+# Base de données (ne pas inclure dans l'image)
+*.db
+*.sqlite
+*.sqlite3
+
+# Fichiers de configuration locaux
+.env
+.env.local
+.env.*.local
+*.local
+
+# Documentation
+docs/
+*.pdf
+Cahier_des_charges*.pdf
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Node (si vous utilisez npm/yarn pour le frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+Jenkinsfile
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*~
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+*.ipynb
+
+# Logs et données temporaires
+logs/
+*.log
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Couvertures et livres (trop lourds, à monter comme volumes)
+# Décommentez si vous voulez exclure les fichiers media
+# couvertures/
+# livres/
+
+# Fichiers de test
+tests/
+test_*.py
+*_test.py
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+

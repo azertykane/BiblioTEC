@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bibliotec-ingress
+  namespace: bibliotec
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/proxy-body-size: "20m"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  labels:
+    app: bibliotec
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: bibliotec.uadb.edu.sn
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-service
+            port:
+              number: 80
+  # Décommentez pour activer HTTPS avec cert-manager
+  # tls:
+  # - hosts:
+  #   - bibliotec.uadb.edu.sn
+  #   secretName: bibliotec-tls
+

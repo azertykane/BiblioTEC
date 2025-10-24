@@ -1,0 +1,32 @@
+# Requirements pour BiblioTEC - Bibliothèque Numérique UADB
+# Python 3.12+
+
+# Django et extensions
+Django==5.2.6
+django-crispy-forms==2.4
+crispy-bootstrap5==2025.6
+
+# Base de données (PostgreSQL pour production)
+psycopg2-binary==2.9.9
+
+# Gestion des images
+Pillow==11.3.0
+
+# ASGI Server
+asgiref==3.9.1
+
+# SQL Parser
+sqlparse==0.5.3
+
+# Timezone data
+tzdata==2025.2
+
+# Serveur WSGI pour production
+gunicorn==23.0.0
+
+# Variables d'environnement
+python-decouple==3.8
+
+# Whitenoise pour servir les fichiers statiques
+whitenoise==6.8.2
+

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="card border-0 shadow">
+                <div class="card-body py-5">
+                    <div class="mb-4">
+                        <i class="fas fa-info-circle fa-5x text-info"></i>
+                    </div>
+                    <h2 class="card-title mb-3">Livre Déjà Acheté</h2>
+                    <p class="card-text mb-4">Vous avez déjà acheté <strong>"{{ livre.titre }}"</strong>.</p>
+                    <p class="card-text mb-4">Vous pouvez le télécharger à nouveau depuis votre bibliothèque personnelle.</p>
+                    
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="{% url 'mes_achats' %}" class="btn btn-uadb">
+                            <i class="fas fa-book me-2"></i>Voir mes achats
+                        </a>
+                        <a href="{% url 'liste_livres' %}" class="btn btn-outline-primary">
+                            <i class="fas fa-shopping-bag me-2"></i>Voir d'autres livres
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

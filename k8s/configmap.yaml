@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bibliotec-config
+  namespace: bibliotec
+data:
+  # Django settings
+  DEBUG: "False"
+  ALLOWED_HOSTS: "localhost,127.0.0.1,bibliotec.uadb.edu.sn"
+  LANGUAGE_CODE: "fr-fr"
+  TIME_ZONE: "Africa/Dakar"
+  
+  # Database settings
+  POSTGRES_DB: "bibliotec_db"
+  POSTGRES_HOST: "postgres-service"
+  POSTGRES_PORT: "5432"
+  
+  # Static and media
+  STATIC_URL: "/static/"
+  MEDIA_URL: "/media/"
+  STATIC_ROOT: "/app/staticfiles"
+  MEDIA_ROOT: "/app/media"
+

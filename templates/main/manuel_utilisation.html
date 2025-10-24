@@ -1,0 +1,418 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <div class="row">
+        <!-- Sidebar Navigation -->
+        <div class="col-md-3 col-lg-2 d-md-block sidebar">
+            <div class="position-sticky pt-3">
+                <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span>Navigation</span>
+                </h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#introduction">
+                            <i class="fas fa-home me-2"></i>Introduction
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#acces">
+                            <i class="fas fa-sign-in-alt me-2"></i>Accès au système
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'guide_etudiant' %}">
+                            <i class="fas fa-user-graduate me-2"></i>Guide de l'étudiant
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'guide_administrateur' %}">
+                            <i class="fas fa-cog me-2"></i>Guide de l'administrateur
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#fonctionnalites">
+                            <i class="fas fa-star me-2"></i>Fonctionnalités avancées
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#depannage">
+                            <i class="fas fa-life-ring me-2"></i>Dépannage
+                        </a>
+                    </li>
+                </ul>
+
+                <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">Raccourcis rapides</h6>
+                <ul class="nav flex-column mb-2">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#faq">
+                            <i class="fas fa-question-circle me-2"></i>FAQ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">
+                            <i class="fas fa-envelope me-2"></i>Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="col-md-9 col-lg-10 px-md-4">
+            <!-- Header -->
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+                <h1 class="h2">
+                    <i class="fas fa-book me-2 text-uadb-blue"></i>
+                    Manuel d'Utilisation - Biblio-TEC
+                </h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group me-2">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.print()">
+                            <i class="fas fa-print me-1"></i>Imprimer
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="downloadPDF()">
+                            <i class="fas fa-download me-1"></i>PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Introduction -->
+            <section id="introduction" class="mb-5">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-uadb-blue text-white">
+                        <h3 class="mb-0">
+                            <i class="fas fa-home me-2"></i>Introduction
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <p class="lead">
+                                    Bienvenue sur <strong>Biblio-TEC</strong>, la plateforme numérique de l'Université Alioune Diop de Bambey.
+                                </p>
+                                <p>
+                                    Ce manuel vous guide à travers toutes les fonctionnalités de notre bibliothèque numérique moderne, conçue pour faciliter votre apprentissage et votre recherche.
+                                </p>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="bg-light rounded p-4">
+                                    <i class="fas fa-university fa-4x text-uadb-blue mb-3"></i>
+                                    <h5>Université Alioune Diop</h5>
+                                    <p class="text-muted small">Bambey, Sénégal</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100 border-0">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-books fa-3x text-uadb-gold mb-3"></i>
+                                        <h5>+5000 Livres</h5>
+                                        <p class="text-muted">Collection numérique complète</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100 border-0">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-mobile-alt fa-3x text-uadb-blue mb-3"></i>
+                                        <h5>Accessible 24h/24</h5>
+                                        <p class="text-muted">Sur tous vos appareils</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100 border-0">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-graduation-cap fa-3x text-uadb-gold mb-3"></i>
+                                        <h5>Support complet</h5>
+                                        <p class="text-muted">Pour étudiants et enseignants</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Accès au système -->
+            <section id="acces" class="mb-5">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-uadb-blue text-white">
+                        <h3 class="mb-0">
+                            <i class="fas fa-sign-in-alt me-2"></i>Accès au système
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h4 class="text-uadb-blue">
+                                    <i class="fas fa-user-plus me-2"></i>Première inscription
+                                </h4>
+                                <div class="steps">
+                                    <div class="step">
+                                        <span class="step-number">1</span>
+                                        <div class="step-content">
+                                            <strong>Accédez au site</strong>
+                                            <p>Rendez-vous sur biblio-tec.uadb.edu.sn</p>
+                                        </div>
+                                    </div>
+                                    <div class="step">
+                                        <span class="step-number">2</span>
+                                        <div class="step-content">
+                                            <strong>Cliquez sur "Inscription"</strong>
+                                            <p>Bouton en haut à droite de la page</p>
+                                        </div>
+                                    </div>
+                                    <div class="step">
+                                        <span class="step-number">3</span>
+                                        <div class="step-content">
+                                            <strong>Remplissez le formulaire</strong>
+                                            <p>Nom d'utilisateur, email universitaire, mot de passe</p>
+                                        </div>
+                                    </div>
+                                    <div class="step">
+                                        <span class="step-number">4</span>
+                                        <div class="step-content">
+                                            <strong>Validez votre inscription</strong>
+                                            <p>Confirmation par email automatique</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <h4 class="text-uadb-blue">
+                                    <i class="fas fa-key me-2"></i>Connexion régulière
+                                </h4>
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Astuce :</strong> Vous pouvez utiliser votre email universitaire OU votre nom d'utilisateur pour vous connecter.
+                                </div>
+                                
+                                <div class="bg-light p-4 rounded">
+                                    <h6>Identifiants de test :</h6>
+                                    <ul class="small">
+                                        <li><strong>Étudiant :</strong> etudiant123 / etudiant@uadb.edu.sn</li>
+                                        <li><strong>Enseignant :</strong> prof123 / professeur@uadb.edu.sn</li>
+                                        <li><strong>Admin :</strong> admin / admin@uadb.edu.sn</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Guides rapides -->
+            <section class="mb-5">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 border-uadb-blue">
+                            <div class="card-header bg-uadb-blue text-white">
+                                <h4 class="mb-0">
+                                    <i class="fas fa-user-graduate me-2"></i>Guide Étudiant
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <p>Découvrez comment maximiser votre utilisation de la bibliothèque numérique.</p>
+                                <ul class="fa-ul">
+                                    <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Recherche de livres</li>
+                                    <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Téléchargement</li>
+                                    <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Gestion des favoris</li>
+                                    <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Profil utilisateur</li>
+                                </ul>
+                                <a href="{% url 'guide_etudiant' %}" class="btn btn-uadb mt-2">
+                                    <i class="fas fa-book-open me-2"></i>Voir le guide complet
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 border-uadb-gold">
+                            <div class="card-header bg-uadb-gold text-dark">
+                                <h4 class="mb-0">
+                                    <i class="fas fa-cog me-2"></i>Guide Administrateur
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <p>Gestion complète de la plateforme pour le personnel administratif.</p>
+                                <ul class="fa-ul">
+                                    <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Gestion des livres</li>
+                                    <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Tableau de bord</li>
+                                    <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Statistiques</li>
+                                    <li><span class="fa-li"><i class="fas fa-check text-success"></i></span>Gestion utilisateurs</li>
+                                </ul>
+                                <a href="{% url 'guide_administrateur' %}" class="btn btn-uadb-outline mt-2">
+                                    <i class="fas fa-tools me-2"></i>Accéder au guide
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ -->
+            <section id="faq" class="mb-5">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-uadb-blue text-white">
+                        <h3 class="mb-0">
+                            <i class="fas fa-question-circle me-2"></i>Foire Aux Questions (FAQ)
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="accordion" id="faqAccordion">
+                            <!-- Question 1 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                        📖 Puis-je lire les livres sur mon téléphone ?
+                                    </button>
+                                </h2>
+                                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        <strong>Oui !</strong> Notre plateforme est entièrement responsive et optimisée pour tous les appareils : ordinateurs, tablettes et smartphones.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Question 2 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                        💰 Comment recharger mon compte ?
+                                    </button>
+                                </h2>
+                                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        Contactez le service de la bibliothèque aux heures d'ouverture. Les rechargements sont traités manuellement pour des raisons de sécurité.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Ajoutez d'autres questions ici -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact -->
+            <section id="contact" class="mb-5">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-uadb-blue text-white">
+                        <h3 class="mb-0">
+                            <i class="fas fa-envelope me-2"></i>Contact et Support
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5 class="text-uadb-blue">Support technique</h5>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-envelope me-2 text-uadb-gold"></i> support-biblio@uadb.edu.sn</li>
+                                    <li><i class="fas fa-phone me-2 text-uadb-gold"></i> +221 33 XXX XX XX</li>
+                                    <li><i class="fas fa-clock me-2 text-uadb-gold"></i> Lun-Ven 8h-18h</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="text-uadb-blue">Service bibliothèque</h5>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-map-marker-alt me-2 text-uadb-gold"></i> Bibliothèque centrale, Campus UADB</li>
+                                    <li><i class="fas fa-user me-2 text-uadb-gold"></i> Mme Diop, M. Ndiaye</li>
+                                    <li><i class="fas fa-calendar me-2 text-uadb-gold"></i> Sur rendez-vous</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<style>
+    .sidebar {
+        background-color: #f8f9fa;
+        border-right: 1px solid #dee2e6;
+        min-height: calc(100vh - 76px);
+    }
+    
+    .sidebar .nav-link {
+        color: #495057;
+        border-radius: 0.375rem;
+        margin: 0.1rem 0;
+    }
+    
+    .sidebar .nav-link.active {
+        background-color: var(--uadb-blue);
+        color: white;
+    }
+    
+    .sidebar .nav-link:hover:not(.active) {
+        background-color: #e9ecef;
+    }
+    
+    .steps .step {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 1.5rem;
+    }
+    
+    .step-number {
+        background: var(--uadb-blue);
+        color: white;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin-right: 1rem;
+        flex-shrink: 0;
+    }
+    
+    .step-content {
+        flex: 1;
+    }
+    
+    .border-uadb-blue {
+        border: 2px solid var(--uadb-blue) !important;
+    }
+    
+    .border-uadb-gold {
+        border: 2px solid var(--uadb-gold) !important;
+    }
+    
+    @media (max-width: 768px) {
+        .sidebar {
+            min-height: auto;
+            border-right: none;
+            border-bottom: 1px solid #dee2e6;
+        }
+    }
+</style>
+
+<script>
+    function downloadPDF() {
+        alert('Fonctionnalité PDF en cours de développement. Utilisez "Imprimer" pour le moment.');
+    }
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}

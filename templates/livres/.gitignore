@@ -1,0 +1,11 @@
+# Fichier de base de données Django
+db.sqlite3
+
+# Fichiers Python compilés
+*.pyc
+
+# Dossiers de cache et environnement
+__pycache__/
+venv/
+env/
+.vscode/
