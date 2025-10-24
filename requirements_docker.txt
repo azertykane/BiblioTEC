@@ -1,0 +1,15 @@
+# --- Dépendances principales Django ---
+Django==5.2.6
+sqlparse==0.5.3
+tzdata==2025.2
+
+# --- Gestion des fichiers statiques ---
+whitenoise==6.6.0
+pillow==11.3.0
+
+# --- Serveur web production ---
+gunicorn==21.2.0
+
+# --- Optionnel : si tu utilises Bootstrap dans tes templates ---
+django-crispy-forms==2.4
+crispy-bootstrap5==2025.6

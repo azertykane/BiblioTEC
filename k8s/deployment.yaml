@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bibliotheque-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bibliotheque
+  template:
+    metadata:
+      labels:
+        app: bibliotheque
+    spec:
+      containers:
+        - name: bibliotheque
+          image: bibliotheque:latest
+          imagePullPolicy: Never # ← important
+          ports:
+            - containerPort: 8000

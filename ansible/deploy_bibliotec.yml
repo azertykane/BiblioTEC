@@ -1,0 +1,32 @@
+---
+- name: Déploiement automatique de BiblioTEC sur Kubernetes par kala 
+  hosts: localhost
+  connection: local
+  vars:
+    app_name: bibliotheque
+    image_name: bibliotheque:latest
+    project_dir: /mnt/c/Users/HP/Bio/BiblioTEC
+    k8s_dir: "{{ project_dir }}/k8s"
+
+  tasks:
+    - name: Configurer Docker pour Minikube
+      shell: eval $(minikube docker-env)
+      register: docker_env
+
+    - name: Construire l'image Docker
+      command: docker build -t {{ image_name }} .
+      args:
+        chdir: "{{ project_dir }}"
+
+    - name: Appliquer le déploiement Kubernetes
+      command: kubectl apply -f {{ k8s_dir }}/deployment.yaml
+
+    - name: Appliquer le service Kubernetes
+      command: kubectl apply -f {{ k8s_dir }}/service.yaml
+
+    - name: Appliquer l’ingress Kubernetes (si présent)
+      command: kubectl apply -f {{ k8s_dir }}/ingress.yaml
+      ignore_errors: yes
+
+    - name: Attendre que le pod soit prêt
+      command: kubectl rollout status deployment/{{ app_name }}-deployment
