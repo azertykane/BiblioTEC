@@ -13,7 +13,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo "\uClonage du dépôt Git...\u"
-                git 'https://github.com/<ton-utilisateur>/<ton-repo>.git'
+                git 'https://github.com/azertykane/BiblioTEC.git'
             }
         }
 
