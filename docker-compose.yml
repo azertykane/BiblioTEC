@@ -9,3 +9,57 @@ services:
     volumes:
       - .:/app
     command: gunicorn bibliotheque.wsgi:application --bind 0.0.0.0:8000
+  # Service PostgreSQL (recommandé pour production)
+  db:
+    image: postgres:16-alpine
+    container_name: bibliotec-db
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-bibliotec_db}
+      - POSTGRES_USER=${POSTGRES_USER:-bibliotec_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme123}
+    networks:
+      - bibliotec-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-bibliotec_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Service Nginx (reverse proxy pour production)
+  nginx:
+    image: nginx:alpine
+    container_name: bibliotec-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - static_volume:/app/staticfiles:ro
+      - ./couvertures:/app/couvertures:ro
+      - ./livres:/app/livres:ro
+      # Pour SSL/TLS (décommentez si vous avez des certificats)
+      # - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - web
+    networks:
+      - bibliotec-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+    driver: local
+  static_volume:
+    driver: local
+
+networks:
+  bibliotec-network:
+    driver: bridge
