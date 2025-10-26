@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="section-title">Mon Historique de Consultation</h2>
+            <p class="text-center text-muted">Liste des documents consultés ou téléchargés.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        {% if consultations %}
+        <div class="col-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Document</th>
+                        <th>Auteur</th>
+                        <th>Date de Consultation</th>
+                        <th>Type d'action</th>
+                        <th>Accès</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in consultations %}
+                    <tr>
+                        <td>{{ item.livre.titre }}</td>
+                        <td>{{ item.livre.auteur }}</td>
+                        <td>{{ item.date_consultation|date:"d F Y H:i" }}</td>
+                        <td>
+                            {% if item.est_telechargement %}
+                                <span class="badge bg-success">Téléchargement</span>
+                            {% else %}
+                                <span class="badge bg-info">Consultation</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'detail_livre' item.livre.id %}" class="btn btn-sm btn-uadb-outline">Voir Détails</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="col-12 text-center py-5">
+            <h4 class="text-muted">Vous n'avez pas encore consulté de document.</h4>
+            <a href="{% url 'liste_livres' %}" class="btn btn-uadb mt-3">Explorer le Catalogue</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

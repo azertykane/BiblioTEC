@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: bibliotheque-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: bibliotheque
@@ -15,6 +15,19 @@ spec:
       containers:
         - name: bibliotheque
           image: bibliotheque:latest
-          imagePullPolicy: Never # ← important
+          imagePullPolicy: Never
           ports:
             - containerPort: 8000
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://admin:password@postgres-service:5432/bibliotec"
+            - name: DEBUG
+              value: "False"
+            - name: SECRET_KEY
+              value: "votre-secret-key-pour-la-production"
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              python manage.py migrate
+              python manage.py collectstatic --noinput
+              gunicorn bibliotheque.wsgi:application --bind 0.0.0.0:8000

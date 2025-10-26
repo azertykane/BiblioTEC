@@ -1,32 +1,62 @@
 ---
-- name: Déploiement automatique de BiblioTEC sur Kubernetes par kala 
+- name: Déploiement automatique de BiblioTEC sur Kubernetes
   hosts: localhost
   connection: local
   vars:
     app_name: bibliotheque
     image_name: bibliotheque:latest
-    project_dir: /mnt/c/Users/HP/Bio/BiblioTEC
+    project_dir: "{{ ansible_env.PWD }}"
     k8s_dir: "{{ project_dir }}/k8s"
 
   tasks:
+    - name: Vérifier que Minikube est en cours d'exécution
+      command: minikube status
+      register: minikube_status
+      failed_when: "minikube_status.stdout != 'minikube\ntype: Control Plane\nhost: Running\nkubelet: Running\napiserver: Running\nkubeconfig: Configured'"
+
     - name: Configurer Docker pour Minikube
       shell: eval $(minikube docker-env)
-      register: docker_env
+      args:
+        executable: /bin/bash
 
-    - name: Construire l'image Docker
+    - name: Construire l'image Docker de l'application
       command: docker build -t {{ image_name }} .
       args:
         chdir: "{{ project_dir }}"
 
-    - name: Appliquer le déploiement Kubernetes
-      command: kubectl apply -f {{ k8s_dir }}/deployment.yaml
+    - name: Appliquer les configurations Kubernetes
+      k8s:
+        state: present
+        src: "{{ k8s_dir }}/{{ item }}"
+      loop:
+        - postgres-pvc.yaml
+        - postgres-deployment.yaml
+        - postgres-service.yaml
+        - deployment.yaml
+        - service.yaml
+        - ingress.yaml
 
-    - name: Appliquer le service Kubernetes
-      command: kubectl apply -f {{ k8s_dir }}/service.yaml
+    - name: Attendre que PostgreSQL soit prêt
+      k8s_info:
+        kind: Pod
+        namespace: default
+        label_selectors:
+          - app = postgres
+      register: postgres_pod
+      until: postgres_pod.resources | length > 0
+      retries: 10
+      delay: 10
 
-    - name: Appliquer l’ingress Kubernetes (si présent)
-      command: kubectl apply -f {{ k8s_dir }}/ingress.yaml
-      ignore_errors: yes
+    - name: Attendre que l'application soit déployée
+      k8s_info:
+        kind: Deployment
+        name: bibliotheque-deployment
+        namespace: default
+      register: deployment_status
+      until: deployment_status.resources[0].status.readyReplicas == 2
+      retries: 12
+      delay: 10
 
-    - name: Attendre que le pod soit prêt
-      command: kubectl rollout status deployment/{{ app_name }}-deployment
+    - name: Afficher l'URL d'accès
+      debug:
+        msg: "Application déployée avec succès! Accédez avec: minikube service bibliotheque-service --url"

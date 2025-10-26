@@ -4,29 +4,29 @@ pipeline {
     environment {
         APP_NAME = "bibliotheque"
         DOCKER_IMAGE = "bibliotheque:latest"
-        K8S_DEPLOYMENT = "k8s/deployment.yaml"
-        K8S_SERVICE = "k8s/service.yaml"
-        K8S_INGRESS = "k8s/ingress.yaml"
+        K8S_DIR = "k8s"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                echo "\uClonage du dépôt Git...\u"
+                echo "Clonage du dépôt Git..."
                 git 'https://github.com/azertykane/BiblioTEC.git'
             }
         }
 
         stage('Linting & Tests') {
             steps {
-                echo "\uExécution des tests Django...\u001B[0m"
-                sh 'python3 manage.py test || true'  
+                echo "Exécution des tests Django..."
+                sh '''
+                python manage.py test || true
+                '''
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                echo "\u Construction de l\'image Docker...\u001B[0m"
+                echo "Construction de l'image Docker..."
                 sh '''
                 eval $(minikube docker-env)
                 docker build -t ${DOCKER_IMAGE} .
@@ -34,24 +34,22 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image (Docker Hub)') {
+        stage('Deploy to Kubernetes') {
             steps {
-                echo "\u Envoi de l\'image sur Docker Hub...\u"
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh '''
-                    echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                    docker tag ${DOCKER_IMAGE} ${DOCKER_USER}/${APP_NAME}:latest
-                    docker push ${DOCKER_USER}/${APP_NAME}:latest
-                    '''
-                }
+                echo "Déploiement sur Kubernetes via Ansible..."
+                sh '''
+                ansible-playbook ansible/deploy_bibliotec.yml -v
+                '''
             }
         }
 
-        stage('Deploy to Kubernetes') {
+        stage('Health Check') {
             steps {
-                echo "\uDéploiement sur Kubernetes via Ansible...\u"
+                echo "Vérification du déploiement..."
                 sh '''
-                ansible-playbook ansible/deploy_bibliotec.yml
+                sleep 30
+                kubectl get pods
+                kubectl get services
                 '''
             }
         }
@@ -59,11 +57,13 @@ pipeline {
 
     post {
         success {
-            echo "\u Déploiement réussi ! L'application est en ligne sur Minikube.\u"
-            sh 'minikube service bibliotheque-service --url'
+            echo "Déploiement réussi ! L'application est en ligne sur Minikube."
+            sh '''
+            minikube service bibliotheque-service --url || true
+            '''
         }
         failure {
-            echo "\Échec du pipeline.\[0m"
+            echo "Échec du pipeline. Vérifiez les logs pour plus de détails."
         }
     }
 }
